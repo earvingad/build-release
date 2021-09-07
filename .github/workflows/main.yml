@@ -4,7 +4,7 @@
 #   Author: ptpt52
 #=================================================
 
-name: x-wrt-master=ipq40xx-generic
+name: x-wrt-9.0_b202108291236=ipq40xx-generic
 
 on: 
   release:
@@ -83,5 +83,5 @@ jobs:
     - name : Upload artifact
       uses: actions/upload-artifact@master
       with:
-        name: x-wrt-master=ipq40xx-generic
+        name: x-wrt-9.0_b202108291236=ipq40xx-generic
         path: x-wrt/rom
