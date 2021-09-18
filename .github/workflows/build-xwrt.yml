@@ -24,6 +24,7 @@ env:
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: .configx
+  DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
   UPLOAD_COWTRANSFER: false
@@ -74,7 +75,9 @@ jobs:
       run: |
         [ -e files ] && mv files x-wrt/files
         [ -e $CONFIG_FILE ] && mv $CONFIG_FILE x-wrt/.config
+        chmod +x $DIY_P2_SH
         cd x-wrt
+        $GITHUB_WORKSPACE/$DIY_P2_SH
 
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@v1.0.0
