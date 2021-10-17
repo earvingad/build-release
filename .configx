@@ -7796,9 +7796,9 @@ CONFIG_PACKAGE_kmod-exfat-linux=m
 #
 # Mentohust
 #
-CONFIG_PACKAGE_kmod-rproxy=m
-CONFIG_PACKAGE_luci-app-mentohust=m
-CONFIG_PACKAGE_mentohust=m
+# CONFIG_PACKAGE_kmod-rproxy is not set
+# CONFIG_PACKAGE_luci-app-mentohust is not set
+# CONFIG_PACKAGE_mentohust is not set
 # CONFIG_PACKAGE_mentohust-proxy is not set
 # end of Mentohust
 
@@ -7806,7 +7806,7 @@ CONFIG_PACKAGE_mentohust=m
 # Natcap Support
 #
 CONFIG_PACKAGE_kmod-natcap=y
-# CONFIG_PACKAGE_luci-app-natcap is not set
+CONFIG_PACKAGE_luci-app-natcap=y
 CONFIG_PACKAGE_natcapd=y
 # CONFIG_PACKAGE_natcapd-client is not set
 # CONFIG_PACKAGE_natcapd-peer is not set
