@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: Build x-wrt-2021-10-19
+name: Build x-wrt-9.0_b
 
 on:
   # repository_dispatch:
