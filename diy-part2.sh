@@ -18,4 +18,4 @@ sed -i 's/CST-8/CST6CDT,M4.1.0,M10.5.0/g' feeds/x/base-config-setting/files/uci.
 sed -i 's/PasswordAuth='\''off'\''/PasswordAuth='\''on'\''/g' feeds/x/base-config-setting/files/uci.defaults
 sed -i 's/${SSID}/'\''OpenWrt'\''/g' feeds/x/base-config-setting/files/uci.defaults
 
-wget -O /package/base-files/files/etc/banner https://raw.githubusercontent.com/openwrt/openwrt/master/package/base-files/files/etc/banner
+wget -O package/base-files/files/etc/banner https://raw.githubusercontent.com/openwrt/openwrt/master/package/base-files/files/etc/banner
