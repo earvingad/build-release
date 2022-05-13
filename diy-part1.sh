@@ -20,9 +20,11 @@
 sed -i 's/192.168.1.1/10.1.1.1/g' package/base-files/files/bin/config_generate
 sed -i 's/='\''OpenWrt'\''/='\''krypton'\''/g' package/base-files/files/bin/config_generate
 
-cat << "EOF" > package/base-files/files/etc/uci-defaults/99_enable_wifi
+cat << "EOF" > package/base-files/files/etc/uci-defaults/99_custom
 uci set wireless.@wifi-device[0].disabled='0'
 uci set wireless.@wifi-device[1].disabled='0'
 uci commit wireless
-EOF
 
+uci set fstab.@global[0].anon_mount='1'
+uci commit fstab
+EOF
