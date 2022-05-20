@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: Build x-wrt
+name: Build OpenWrt TL-WR840N v6.2
 
 on:
   repository_dispatch:
@@ -20,11 +20,11 @@ on:
         default: 'false'
 
 env:
-  REPO_URL: https://github.com/x-wrt/x-wrt.git
+  REPO_URL: https://github.com/IcedShake/openwrt-19.07-tl-wr840n-v6.x.git
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: .configx
-  DIY_P2_SH: diy-part2.sh
+  CONFIG_FILE: .configtl
+  DIY_P1_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
   UPLOAD_COWTRANSFER: false
@@ -57,27 +57,27 @@ jobs:
       working-directory: /workdir
       run: |
         df -hT $PWD
-        git clone $REPO_URL -b $REPO_BRANCH x-wrt
-        ln -sf /workdir/x-wrt $GITHUB_WORKSPACE/x-wrt
+        git clone $REPO_URL -b $REPO_BRANCH openwrt
+        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
     - name: Load custom feeds
       run: |
-        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF x-wrt/feeds.conf.default
-        cd x-wrt
+        [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
+        cd openwrt
 
     - name: Update feeds
-      run: cd x-wrt && ./scripts/feeds update -a
+      run: cd openwrt && ./scripts/feeds update -a
 
     - name: Install feeds
-      run: cd x-wrt && ./scripts/feeds install -a
+      run: cd openwrt && ./scripts/feeds install -a
 
     - name: Load custom configuration
       run: |
-        [ -e files ] && mv files x-wrt/files
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE x-wrt/.config
-        chmod +x $DIY_P2_SH
-        cd x-wrt
-        $GITHUB_WORKSPACE/$DIY_P2_SH
+        [ -e files ] && mv files openwrt/files
+        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
+        chmod +x $DIY_P1_SH
+        cd openwrt
+        $GITHUB_WORKSPACE/$DIY_P1_SH
 
     - name: SSH connection to Actions
       uses: P3TERX/ssh2actions@v1.0.0
@@ -89,7 +89,7 @@ jobs:
     - name: Download package
       id: package
       run: |
-        cd x-wrt
+        cd openwrt
         make defconfig
         make download -j8
         find dl -size -1024c -exec ls -l {} \;
@@ -98,7 +98,7 @@ jobs:
     - name: Compile the firmware
       id: compile
       run: |
-        cd x-wrt
+        cd openwrt
         echo -e "$(nproc) thread compile"
         IGNORE_ERRORS=1 make -j$(nproc) || make -j1 || make -j1 V=s
         echo "::set-output name=status::success"
@@ -115,13 +115,13 @@ jobs:
       if: steps.compile.outputs.status == 'success' && env.UPLOAD_BIN_DIR == 'true'
       with:
         name: OpenWrt_bin${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
-        path: x-wrt/bin
+        path: openwrt/bin
 
     - name: Organize files
       id: organize
       if: env.UPLOAD_FIRMWARE == 'true' && !cancelled()
       run: |
-        cd x-wrt/bin/targets/*/*
+        cd openwrt/bin/targets/*/*
         rm -rf packages
         echo "FIRMWARE=$PWD" >> $GITHUB_ENV
         echo "::set-output name=status::success"
