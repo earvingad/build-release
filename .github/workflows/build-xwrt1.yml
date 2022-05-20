@@ -21,7 +21,7 @@ on:
 
 env:
   REPO_URL: https://github.com/IcedShake/openwrt-19.07-tl-wr840n-v6.x.git
-  REPO_BRANCH: master
+  REPO_BRANCH: main
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: .configtl
   DIY_P1_SH: diy-part2.sh
